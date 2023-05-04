@@ -41,11 +41,10 @@ def test_get_one_book_with_no_record(client):
     assert response_body == {"message": "book 1 not found"}
 
 def test_create_one_book(client):
+    #Arrange
+    Expected_book = {"title": "New Book", "description": "The Best!"}
     # Act
-    response = client.post("/books", json={
-        "title": "New Book",
-        "description": "The Best!"
-    })
+    response = client.post("/books", json=Expected_book)
     response_body = response.get_json()
 
     # Assert
