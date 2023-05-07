@@ -1,4 +1,3 @@
-from os import abort
 from app import db
 from app.models.book import Book
 from flask import Blueprint, jsonify, abort, make_response, request
@@ -37,9 +36,7 @@ def read_all_books():
     else:
         books = Book.query.all()
 
-    books_response = []
-    for book in books:
-        books_response.append(book.to_dict())
+    books_response = [book.to_dict() for book in books]
     return jsonify(books_response)
 
 @books_bp.route("/<book_id>", methods=["GET"])
@@ -68,8 +65,3 @@ def delete_book(book_id):
     db.session.commit()
 
     return make_response(jsonify(f"Book #{book.id} successfully deleted"))
-
-
- 
-
-

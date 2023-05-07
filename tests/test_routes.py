@@ -1,6 +1,6 @@
 import pytest
 from app.models.book import Book
-from app.routes import validate_model
+from app.book_routes import validate_model
 from werkzeug.exceptions import HTTPException
 
 def test_get_all_books_with_no_records(client):
@@ -13,7 +13,6 @@ def test_get_all_books_with_no_records(client):
     assert response_body == []
 
 
-# When we have records, `read_all_books` returns a list containing a dictionary representing each `Book`
 def test_get_all_books_with_two_records(client, two_saved_books):
     # Act
     response = client.get("/books")
@@ -66,7 +65,6 @@ def test_create_one_book(client):
     assert response.status_code == 201
     assert response_body == "Book New Book successfully created"
 
-# When we have records and a `title` query in the request arguments, `read_all_books` returns a list containing only the `Book`s which match the query
 def test_get_all_books_with_title_query_matching_none(client, two_saved_books):
     # Act
     data = {'title': 'Desert Book'}
@@ -77,7 +75,6 @@ def test_get_all_books_with_title_query_matching_none(client, two_saved_books):
     assert response.status_code == 200
     assert response_body == []
 
-# When we have records and a `title` query in the request arguments, `read_all_books` returns a list containing only the `Book`s which match the query
 def test_get_all_books_with_title_query_matching_one(client, two_saved_books):
     # Act
     data = {'title': 'Ocean Book'}
@@ -93,7 +90,6 @@ def test_get_all_books_with_title_query_matching_one(client, two_saved_books):
         "description": "watr 4evr"
     }
 
-# When we call `read_one_book` with a numeric ID that doesn't have a record, we get the expected error message
 def test_get_one_book_id_not_found(client, two_saved_books):
     # Act
     response = client.get("/books/3")
@@ -103,7 +99,6 @@ def test_get_one_book_id_not_found(client, two_saved_books):
     assert response.status_code == 404
     assert response_body == {"message":"Book 3 not found"}
 
-# When we call `read_one_book` with a non-numeric ID, we get the expected error message
 def test_get_one_book_id_invalid(client, two_saved_books):
     # Act
     response = client.get("/books/cat")

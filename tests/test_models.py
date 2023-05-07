@@ -56,3 +56,4 @@ def test_to_dict_missing_description():
     assert result["id"] == 1
     assert result["title"] == "Ocean Book"
     assert result["description"] is None
+    
