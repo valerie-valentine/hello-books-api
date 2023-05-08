@@ -26,7 +26,8 @@ def read_all_authors():
     for author in authors:
         authors_response.append(
             {
-                "name": author.name
+                "name": author.name,
+                "id": author.id
             }
         )
     return jsonify(authors_response)

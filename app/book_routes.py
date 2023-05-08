@@ -29,7 +29,6 @@ def create_book():
 
 @books_bp.route("", methods=["GET"])
 def read_all_books():
-    
     title_query = request.args.get("title")
     if title_query:
         books = Book.query.filter_by(title=title_query)
@@ -52,6 +51,8 @@ def update_book(book_id):
 
     book.title = request_body["title"]
     book.description = request_body["description"]
+    book.author_id = request_body["author_id"]
+
 
     db.session.commit()
 
