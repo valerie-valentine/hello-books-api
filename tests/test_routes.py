@@ -1,6 +1,6 @@
 import pytest
 from app.models.book import Book
-from app.book_routes import validate_model
+from app.routes.book_routes import validate_model
 from werkzeug.exceptions import HTTPException
 
 def test_get_all_books_with_no_records(client):
