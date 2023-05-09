@@ -19,13 +19,16 @@ def validate_model(cls, model_id):
 
 @books_bp.route("", methods=["POST"])
 def create_book():
-    request_body = request.get_json()
-    new_book = Book.from_dict(request_body)
+    try:
+        request_body = request.get_json()
+        new_book = Book.from_dict(request_body)
 
-    db.session.add(new_book)
-    db.session.commit()
+        db.session.add(new_book)
+        db.session.commit()
 
-    return make_response(jsonify(f"Book {new_book.title} successfully created"), 201)
+        return make_response(jsonify(f"Book {new_book.title} successfully created"), 201)
+    except KeyError as e:
+        abort(make_response({"message": f"missing required value: {e}"}, 400))
 
 @books_bp.route("", methods=["GET"])
 def read_all_books():
@@ -49,14 +52,17 @@ def update_book(book_id):
 
     request_body = request.get_json()
 
-    book.title = request_body["title"]
-    book.description = request_body["description"]
-    book.author_id = request_body["author_id"]
+    try:
+        book.title = request_body["title"]
+        book.description = request_body["description"]
+        book.author_id = request_body["author_id"]
 
 
-    db.session.commit()
+        db.session.commit()
 
-    return make_response(jsonify(f"Book #{book.id} successfully updated"))
+        return make_response(jsonify(f"Book #{book.id} successfully updated"))
+    except KeyError as e:
+        abort(make_response({"message": f"missing required value: {e}"}, 400))
 
 @books_bp.route("/<book_id>", methods=["DELETE"])
 def delete_book(book_id):
